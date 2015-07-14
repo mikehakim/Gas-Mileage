@@ -1,3 +1,103 @@
+
+
+
+<?php
+
+include 'dbconnection.php';
+
+$result = @(($_POST['num1'] / $_POST['num2']));
+
+date_default_timezone_set('UTC');
+
+/*$my_date = new DateTime();
+//  echo $my_date->format('Y-m-d H:i:s');
+$dateString = $my_date->format('Y-m-d H:i:s');*/
+
+
+if ($result != NULL) {
+	echo "Character Invalid";
+}
+
+
+
+
+/*$current_date = date('l \t\h\e jS');
+
+echo $current_date;*/
+
+
+
+
+
+
+	if (isset($_POST['submit'])) {
+
+
+
+
+		$currentDir = getcwd();
+
+
+
+
+		header('Location: table.php');
+
+
+		$sql = "INSERT INTO gascalc (numberOfGallons, milesTravelled, gasMileage, currentDate) VALUES (" . $_POST['num1'] . " , " . $_POST['num2'] . ", " . $result . ", NOW())";
+
+
+
+
+
+
+
+
+
+		if(mysqli_query($link, $sql)) {
+			echo "Records added successfully.";
+
+		}  else {
+			echo 'Error no values inputted ' .
+				mysqli_error($link);
+		}
+
+
+		/*if ($result->num_rows > 0) {
+			  echo "<table><tr><th>Number of Gallons</th><th>Miles Travelled</th></tr>";
+			  // output data of each row
+			  while ($row = $result->fetch_assoc()) {
+				 echo "<tr><td>" .$row["Number of Gallons"]. "" .$row["Miles Travelled"]."</td></tr>";
+			  }
+			  echo "</table>";
+
+		   } else {
+			  echo "0 results";
+		   }
+		   $conn->close();*/
+
+
+
+
+	// Close Connection
+
+		// mysqli_close($link);
+
+		// Old connection writing to text file I know am writing to the databse.
+		//$file = ($currentDir . "/gasoline.txt");
+	# string concatenation
+
+
+		// print_r($result);
+		//$ser = serialize($$result);
+		// $ser = serialize($ser);
+		//file_put_contents($array . PHP_EOL, FILE_APPEND);
+		//file_put_contents($file, $current_date . PHP_EOL, FILE_APPEND);
+
+	}
+
+
+?>
+
 <!DOCTYPE html>
 <html lang ="en">
 
@@ -29,54 +129,14 @@
 		}
 	</style>
 
-
-
+	<a href="/table.php">Gas Mileage Data</a>
+	
 </head>
 
 
 
-<?php
-$currentDir = getcwd();
-
-date_default_timezone_set('America/Los_Angeles');
-
-if (isset($_POST['submit'])) {
-
-	$result = @($_POST['num1'] / $_POST['num2']);
-	$result = @($_POST['num1'] / $_POST['num2']);
-	header('Location: table.php');
-
-
-	$current_date = date("d-m-y");
-
-
-
-
-	$file = ($currentDir . "/gasoline.txt");
-# string concatenation
-
-
-
-
-	// print_r($result);
-	$ser = serialize($result);
-	$ser = serialize($ser);
-	file_put_contents($file, $result . PHP_EOL, FILE_APPEND);
-	file_put_contents($file, $current_date . PHP_EOL, FILE_APPEND);
-
-}
-
-
-
-
-
-
-?>
-
-
-
-
 <html>
+
 
 <body>
 <h1>Gas Mileage Calculator </h1>
@@ -88,7 +148,7 @@ if (isset($_POST['submit'])) {
 	<h2><p>Number of Gallons Used:<input name="num2"</p></h2>
 
 
-		<h4><input type="submit" name="submit"></h4>
+	<h4><input type="submit" name="submit"></h4>
 
 
 
@@ -99,7 +159,9 @@ if (isset($_POST['submit'])) {
 	</table>
 </form>
 
-<h3><p>Gas Mileage:<?php if (count($_POST)>0) echo "$result"; ?></p></h3>
+
+
+
 
 
 
