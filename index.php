@@ -1,29 +1,73 @@
-
 <?php
+
+
+
+$valid_passwords = array ("mhakim" => "jonathan");
+$valid_users = array_keys($valid_passwords);
+
+$user = $_SERVER['PHP_AUTH_USER'];
+$pass = $_SERVER['PHP_AUTH_PW'];
+
+$validated = (in_array($user, $valid_users)) && ($pass == $valid_passwords[$user]);
+
+if (!$validated) {
+	header('WWW-Authenticate: Basic realm="My Realm"');
+	header('HTTP/1.0 401 Unauthorized');
+	die ("Not authorized");
+}
+
+// If arrives here, is a valid user.
+echo "<p>Welcome $user.</p>";
+echo "<p>Congratulation, you are into the system.</p>";
+
+
+
+
+
+
+
+
+
+
+
 include 'dbconnection.php';
-$result = @(($_POST['num1'] / $_POST['num2']));
+
+$num1 = @$_POST['num1'];
+$num2 = @$_POST['num2'];
+$result = @($_POST['num1'] / $_POST['num2']);
+
+$calc = false;
+
+if ($num1 < 0 || $num2 < 0) {
+	echo "Not a <strong> POSITIVE </strong> number!";
+	header('Location: ');
+} else {
+
+	$calc = true;
+
+}
+
+
+
+
+
 date_default_timezone_set('UTC');
-/*$my_date = new DateTime();
-//  echo $my_date->format('Y-m-d H:i:s');
-$dateString = $my_date->format('Y-m-d H:i:s');*/
 
-/*$current_date = date('l \t\h\e jS');
-echo $current_date;*/
-if (isset($_POST['submit'])) {
+
+
+
+
+
+
+if ($calc && isset($_POST['submit'])) {
 	$currentDir = getcwd();
-
-
-
-	 header('Location: table.php');
-
-
-
+	header('Location: table.php');
 	$sql = "INSERT INTO gascalc (numberOfGallons, milesTravelled, gasMileage, currentDate) VALUES (" . $_POST['num1'] . " , " . $_POST['num2'] . ", " . $result . ", NOW())";
 	if(mysqli_query($link, $sql)) {
 		echo "Records added successfully.";
 	}  else {
 		echo 'Did <strong> NOT </strong> enter an <strong>INTEGER</strong>';
-			mysqli_error($link); header('Location: ');
+		mysqli_error($link); header('Location: ');
 	}
 	/*if ($result->num_rows > 0) {
           echo "<table><tr><th>Number of Gallons</th><th>Miles Travelled</th></tr>";
@@ -55,6 +99,13 @@ if (isset($_POST['submit'])) {
 <head>
 
 	<style>
+
+		body {
+
+			background-color: peachpuff;
+
+
+		}
 		p {
 			color: purple;
 			font-size: 20px;
